@@ -43,6 +43,27 @@
         white-space: nowrap; /* Prevent text wrapping */
         overflow: hidden; /* Hide overflow text */
       }
+
+      .timer {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+        font-size: 18px;
+        animation: colorWipe 5s infinite;
+      }
+
+      @keyframes colorWipe {
+        0% {
+          color: white;
+        }
+        50% {
+          color: red;
+        }
+        100% {
+          color: white;
+        }
+      }
     </style>
   </head>
   <body>
@@ -57,10 +78,60 @@
     </div>
 
     <div class="marquee">
-      <marquee behavior="scroll" direction="left"
-        >Website is currently under construction. Please excuse the
-        mess!</marquee
-      >
+      <marquee behavior="scroll" direction="left" id="news-marquee"></marquee>
     </div>
+
+    <div class="timer" id="timer"></div>
+
+    <script>
+      // Function to fetch news from News API
+      async function fetchNews() {
+        const apiKey = "0b80aef9111a4080a23501d771959db9"; // Replace with your News API key
+        const response = await fetch(
+          `https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=0b80aef9111a4080a23501d771959db9`
+        );
+        const data = await response.json();
+        return data.articles.map((article) => article.title);
+      }
+
+      // Function to update news marquee
+      async function updateNews() {
+        const newsMarquee = document.getElementById("news-marquee");
+        const news = await fetchNews();
+        newsMarquee.innerHTML = news.join(" | ");
+      }
+
+      // Set the countdown date to 25 days from now
+      const countdownDate = new Date();
+      countdownDate.setDate(countdownDate.getDate() + 25);
+
+      // Update the countdown every second
+      const timer = document.getElementById("timer");
+      const countdown = setInterval(function () {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+
+        // Calculate days, hours, minutes, and seconds
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the countdown
+        timer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+        // When the countdown is over, display a message
+        if (distance < 0) {
+          clearInterval(countdown);
+          timer.innerHTML = "We will be back";
+        }
+      }, 1000);
+
+      // Update news every minute
+      updateNews();
+      setInterval(updateNews, 60000);
+    </script>
   </body>
 </html>
