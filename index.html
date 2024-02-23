@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Under Construction</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Hide scrollbars */
+      }
+
+      #video-background {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -1000;
+      }
+
+      #under-construction {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        color: white;
+        text-align: center;
+      }
+
+      /* Customize marquee */
+      .marquee {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: black;
+        color: white;
+        padding: 10px 0;
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+      }
+    </style>
+  </head>
+  <body>
+    <video id="video-background" autoplay loop muted>
+      <source src="under-construction.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <div id="under-construction">
+      <h1>Under Construction</h1>
+      <p>We're working on something awesome! Please check back later.</p>
+    </div>
+
+    <div class="marquee">
+      <marquee behavior="scroll" direction="left"
+        >Website is currently under construction. Please excuse the
+        mess!</marquee
+      >
+    </div>
+  </body>
+</html>
